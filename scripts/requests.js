@@ -32,16 +32,16 @@ const getLocation = async (location) => {
 }
 
 const getWeather = async (coords) => {
-    const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,rain_sum,wind_speed_10m_max&current=temperature_2m,wind_speed_10m,rain,cloud_cover,weather_code&forecast_days=7`)
+    const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,rain_sum,wind_speed_10m_max&current=temperature_2m,wind_speed_10m,rain,cloud_cover,weather_code&forecast_days=7&hourly=rain`)
     if (response.status === 200) {
         const data = await response.json()
         const dailyData = data.daily
         const currentData = data.current
-        // Daily: Max windspeed, Max & min temp, Sunrise and sunset, UV index, Rain sum
-        // Current: Temperature, Rain, Cloud cover total, Windspeed
+        const hourlyData = data.hourly
         return {
             dailyData,
-            currentData
+            currentData,
+            hourlyData
         }
     } else {
         throw new Error(`Unable to access the weather api.`)
@@ -50,18 +50,23 @@ const getWeather = async (coords) => {
 
 let date = 1
 
+// Attach a 'click' event listener to the previous button to cycle through the forecast days
 document.querySelector('#prev-button').addEventListener('click', (e) => {
+    // Check that the date counter is positive
     if (date > 0) {
         date--
     }
+    // Get the location from the location input
     const location = document.querySelector('#location')
     if (location.value === '') {
+        // If the location input is empty, we cycle the forecast for their default location
         getDefaultLocation().then((location) => {
             updateForecast(location, date)
         }).catch((error) => {
             console.log(`Error: ${error}`)
         })
     } else {
+        // Otherwise we get the forecast information for their new location
         getLocation(location.value).then((location) => {
             updateForecast(location, date)
         }).catch((error) => {
@@ -70,18 +75,23 @@ document.querySelector('#prev-button').addEventListener('click', (e) => {
     }
 })
 
+// Attach a 'click' event listener to the next button to cycle through the forecast days
 document.querySelector('#next-button').addEventListener('click', (e) => {
+    // Check that the date counter is within the forecast days limit
     if (date < 6) {
         date++
     }
+    // Get the location from the location input
     const location = document.querySelector('#location')
     if (location.value === '') {
+        // If the location input is empty, we cycle the forecast for their default location
         getDefaultLocation().then((location) => {
             updateForecast(location, date)
         }).catch((error) => {
             console.log(`Error: ${error}`)
         })
     } else {
+        // Otherwise we get the forecast information for their new location
         getLocation(location.value).then((location) => {
             updateForecast(location, date)
         }).catch((error) => {
@@ -90,18 +100,37 @@ document.querySelector('#next-button').addEventListener('click', (e) => {
     }
 })
 
+// Render the weather for the user's current location (default)
 getDefaultLocation().then((location) => {
     renderWeather(location)
 }).catch((error) => {
     console.log(`Error: ${error}`)
 })
 
-document.querySelector('#search-button').addEventListener('click', (e) => {
-    date = 1
-    const location = document.querySelector('#location')
-    getLocation(location.value).then((location) => {
-        renderWeather(location)
-    }).catch((error) => {
-        console.log(`Error: ${error}`)
-    })
+// Grab elements
+const searchButton = document.querySelector('#search-button');
+const locationInput = document.querySelector('#location');
+
+// Unified search handler
+function handleSearch() {
+    const location = locationInput.value.trim();
+    if (!location) return;
+
+    getLocation(location).then((location) => renderWeather(location)).catch((error) => console.log(`Error: ${error}`));
+}
+
+// Button click triggers search
+searchButton.addEventListener('click', handleSearch);
+
+// Enter key triggers search
+locationInput.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+        event.preventDefault()
+        handleSearch()
+    }
+})
+
+// Trigger on leaving the input field
+locationInput.addEventListener('blur', () => {
+    handleSearch()
 })
