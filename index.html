@@ -9,41 +9,43 @@
 </head>
 <body>
   <header>
-    <h1>🌤️ Weather Dashboard</h1>
+    <h1>🌤️ Weather</h1>
   </header>
 
   <main>
-    <section class="search-section">
-      <input id="location" type="text" placeholder="Enter location">
-      <button id="search-button">Search</button>
-    </section>
+    <div class="content-wrapper">
+      <section class="search-section">
+        <input id="location" type="text" placeholder="Enter location">
+        <button id="search-button">Search</button>
+      </section>
 
-    <section class="weather-card">
-      <h2 id="city-name"></h2>
-      <p id="current-weather"></p>
-      <p id="current-temperature"></p>
-      <p id="current-rain"></p>
-      <p id="current-cloud-cover"></p>
-      <p id="current-wind-speed"></p>
+      <section class="weather-card">
+        <h2 id="city-name"></h2>
+        <p id="current-weather"></p>
+        <p id="current-temperature"></p>
+        <p id="current-rain"></p>
+        <p id="current-cloud-cover"></p>
+        <p id="current-wind-speed"></p>
 
-      <div class="daily-weather-info">
-        <div class="forecast-header">
-          <h3>Forecast for <span id="forecast-date" contenteditable="true"></span></h3>
-          <div class="forecast-nav">
-            <button id="prev-button">◀</button>
-            <button id="next-button">▶</button>
+        <div class="daily-weather-info">
+          <div class="forecast-header">
+            <h3>Forecast for <span id="forecast-date" contenteditable="true"></span></h3>
+            <div class="forecast-nav">
+              <button id="prev-button">◀</button>
+              <button id="next-button">▶</button>
+            </div>
           </div>
+          <p id="date"></p>
+          <p id="daily-min-temperature"></p>
+          <p id="daily-max-temperature"></p>
+          <p id="daily-max-wind-speed"></p>
+          <p id="daily-sunrise"></p>
+          <p id="daily-sunset"></p>
+          <p id="daily-uv-index"></p>
+          <p id="daily-rain-sum"></p>
         </div>
-        <p id="date"></p>
-        <p id="daily-min-temperature"></p>
-        <p id="daily-max-temperature"></p>
-        <p id="daily-max-wind-speed"></p>
-        <p id="daily-sunrise"></p>
-        <p id="daily-sunset"></p>
-        <p id="daily-uv-index"></p>
-        <p id="daily-rain-sum"></p>
-      </div>
-    </section>
+      </section>
+    </div>
   </main>
 
   <footer>
