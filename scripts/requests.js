@@ -1,3 +1,4 @@
+// Function to get the connected user's lat-lon and location name
 const getDefaultLocation = async () => {
     const response = await fetch('https://ipinfo.io/json?token=1a11bd55cc8f9c')
     if (response.status === 200) {
@@ -15,6 +16,7 @@ const getDefaultLocation = async () => {
     }
 }
 
+// Function to get the lat-lon and name of a location
 const getLocation = async (location) => {
     const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(location)}`)
     if (response.ok) {
@@ -31,8 +33,9 @@ const getLocation = async (location) => {
     }
 }
 
-const getWeather = async (coords) => {
-    const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,rain_sum,wind_speed_10m_max&current=temperature_2m,wind_speed_10m,rain,cloud_cover,weather_code&forecast_days=7&hourly=rain`)
+// Function to get the weather at a specific location
+const getWeather = async (location) => {
+    const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${location.lat}&longitude=${location.lon}&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,rain_sum,wind_speed_10m_max&current=temperature_2m,wind_speed_10m,rain,cloud_cover,weather_code&forecast_days=7&hourly=rain`)
     if (response.status === 200) {
         const data = await response.json()
         const dailyData = data.daily

@@ -1,3 +1,4 @@
+// Function to classify the weather based on temp, rain, cloud cover and wind speed
 function classifyWeather({ temperature, rain, cloudCover, windSpeed }) {
   // Storm: very high wind or heavy rain with wind
   if (windSpeed > 30 || (rain > 10 && windSpeed > 20)) {
@@ -42,6 +43,8 @@ function classifyWeather({ temperature, rain, cloudCover, windSpeed }) {
   // Default fallback
   return "Clear";
 }
+
+// Function to classify the weather based on temp, rain and wind speed
 function classifyWeatherNoCloud({ temperature, rain, windSpeed }) {
     // Clear: no rain and mild wind
     if (rain === 0 && windSpeed < 15) {
@@ -87,6 +90,7 @@ function classifyWeatherNoCloud({ temperature, rain, windSpeed }) {
     return "Clear";
 }
 
+//Function to render the weather given a location and date
 const renderWeather = async (location, date = 1) => {
     const {dailyData, currentData, hourlyData} = await getWeather(location)
     const currentCityNameEl = await document.querySelector('#city-name')
@@ -112,10 +116,12 @@ const renderWeather = async (location, date = 1) => {
     currentRainEl.textContent = 'Current rain: ' + currentData.rain.toString() + 'mm'
     currentCloudCoverEl.textContent = 'Current cloud cover: ' + currentData.cloud_cover.toString() + '%'
     currentWindSpeedEl.textContent = 'Current wind speed: ' + currentData.wind_speed_10m.toString() + 'km/h'
-
+    
+    // Call the update forecast to update given a location and date
     updateForecast(location, date)
 }
 
+// Function to update the weather forecasts given a location and date
 const updateForecast = async (location, date) => {
     const {dailyData, currentData, hourlyData} = await getWeather(location)
     const forecastDate = await document.querySelector('#forecast-date')
@@ -146,6 +152,7 @@ const updateForecast = async (location, date) => {
     dailyRainSumEl.textContent = 'Rain sum: ' + dailyData.rain_sum[date] + 'mm'
 }
 
+// Function to render the background given some weather
 const renderBackground = async (weather) => {
     document.body.style.backgroundImage = `url('images/${weather}.jpg')`
     document.body.style.backgroundSize = "cover"
