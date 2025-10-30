@@ -32,7 +32,7 @@ const getLocation = async (location) => {
 }
 
 const getWeather = async (coords) => {
-    const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,rain_sum,wind_speed_10m_max&current=temperature_2m,wind_speed_10m,rain,cloud_cover,weather_code&forecast_days=3`)
+    const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,rain_sum,wind_speed_10m_max&current=temperature_2m,wind_speed_10m,rain,cloud_cover,weather_code&forecast_days=7`)
     if (response.status === 200) {
         const data = await response.json()
         const dailyData = data.daily
@@ -48,7 +48,7 @@ const getWeather = async (coords) => {
     }
 }
 
-let date = 1;
+let date = 1
 
 document.querySelector('#prev-button').addEventListener('click', (e) => {
     if (date > 0) {
@@ -71,7 +71,7 @@ document.querySelector('#prev-button').addEventListener('click', (e) => {
 })
 
 document.querySelector('#next-button').addEventListener('click', (e) => {
-    if (date < 2) {
+    if (date < 6) {
         date++
     }
     const location = document.querySelector('#location')

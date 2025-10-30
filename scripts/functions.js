@@ -99,11 +99,25 @@ const weatherCodeDescriptions = {
   97: "Thunderstorm, heavy, with rain/snow (no hail)",
   98: "Thunderstorm with dust/sandstorm",
   99: "Thunderstorm, heavy, with hail"
-};
+}
+
+const weatherGroups = {
+  Clear: [0, 1, 2, 3],
+  Fog: [10, 11, 12, 28, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49],
+  Dust: [4, 5, 6, 7, 8, 9, 30, 31, 32, 33, 34, 35],
+  Drizzle: [50, 51, 52, 53, 54, 55, 56, 57, 58, 59],
+  Rain: [60, 61, 62, 63, 64, 65, 66, 67, 80, 81, 82],
+  Snow: [68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 83, 84, 85, 86, 87, 88, 89, 90],
+  Storm: [17, 29, 91, 92, 93, 94, 95, 96, 97, 98, 99],
+  Windy: [18, 19, 36, 37, 38, 39],
+}
 
 const getWeatherDescription  = function (code) {
-    code = Number(code);
-    return weatherCodeDescriptions.hasOwnProperty(code) ? weatherCodeDescriptions[code] : "Unknown weather code";
+    code = Number(code)
+    for (const [category, codes] of Object.entries(weatherGroups)) {
+        if (codes.includes(code)) return category
+    }
+    return "unknown"
 }
 
 const renderWeather = async (location, date = 1) => {
@@ -117,6 +131,7 @@ const renderWeather = async (location, date = 1) => {
 
     currentCityNameEl.textContent = 'Currently, in ' + location.name
     currentWeatherEl.textContent = 'Current weather: ' + getWeatherDescription(currentData.weather_code).toString()
+    renderBackground(getWeatherDescription(currentData.weather_code).toString())
     currentTemperatureEl.textContent = 'Current temperature: ' + currentData.temperature_2m.toString() + '℃'
     currentRainEl.textContent = 'Current rain: ' + currentData.rain.toString() + 'mm'
     currentCloudCoverEl.textContent = 'Current cloud cover: ' + currentData.cloud_cover.toString() + '%'
@@ -160,4 +175,11 @@ const updateForecast = async (location, date) => {
     dailySunsetEl.textContent = 'Sunset: ' + dailyData.sunset[date].split('T')[1] + 'pm'
     dailyUVIndexEl.textContent = 'UV Index: ' + dailyData.uv_index_max[date]
     dailyRainSumEl.textContent = 'Rain sum: ' + dailyData.rain_sum[date] + 'mm'
+}
+
+const renderBackground = async (weather) => {
+    document.body.style.backgroundImage = `url('images/${weather}.jpg')`
+    document.body.style.backgroundSize = "cover"
+    document.body.style.backgroundRepeat = "no-repeat"
+    document.body.style.backgroundPosition = "center"
 }
