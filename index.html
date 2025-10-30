@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weather Dashboard</title>
+  <link rel="stylesheet" href="styles/style.css" />
+  <link rel="icon" type="image/x-icon" href="images/favicon.png">
+</head>
+<body>
+  <header>
+    <h1>🌤️ Weather Dashboard</h1>
+  </header>
+
+  <main>
+    <section class="search-section">
+      <input id="location" type="text" placeholder="Enter location">
+      <button id="search-button">Search</button>
+    </section>
+
+    <section class="weather-card">
+      <h2 id="city-name"></h2>
+      <p id="current-weather"></p>
+      <p id="current-temperature"></p>
+      <p id="current-rain"></p>
+      <p id="current-cloud-cover"></p>
+      <p id="current-wind-speed"></p>
+
+      <div class="daily-weather-info">
+        <div class="forecast-header">
+          <h3>Forecast for <span id="forecast-date" contenteditable="true"></span></h3>
+          <div class="forecast-nav">
+            <button id="prev-button">◀</button>
+            <button id="next-button">▶</button>
+          </div>
+        </div>
+        <p id="date"></p>
+        <p id="daily-min-temperature"></p>
+        <p id="daily-max-temperature"></p>
+        <p id="daily-max-wind-speed"></p>
+        <p id="daily-sunrise"></p>
+        <p id="daily-sunset"></p>
+        <p id="daily-uv-index"></p>
+        <p id="daily-rain-sum"></p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Data provided by Open-Meteo API 🌎
+  </footer>
+
+  <script src="scripts/functions.js"></script>
+  <script src="scripts/requests.js"></script>
+</body>
+</html>
